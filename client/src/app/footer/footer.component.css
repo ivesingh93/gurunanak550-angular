@@ -1,0 +1,39 @@
+.footer{
+  color: rgb(0, 147, 181);
+  background-color: rgb(122, 96, 66);
+  align-items: center;
+  padding: 30px 0;
+  justify-content: center;
+  text-align: center;
+
+}
+
+#contact-us {
+  font-family: Open Sans;
+  color: white;
+}
+
+h2{
+  color: #A8C545;
+  font-family: BlinkMacSystemFont, Open Sans;
+}
+
+.icon{
+  color: #77a6a3;
+}
+
+a{
+  color: #fff;
+}
+
+h6{
+  text-decoration: underline;
+}
+
+.facebook{
+  background-color: #0069d9;
+}
+
+.font{
+  font-size: .9rem;
+}
