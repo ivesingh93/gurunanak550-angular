@@ -1,0 +1,24 @@
+{
+  "name": "gurunanak550",
+  "version": "1.0.0",
+  "description": "Guru Nanak 550",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "nodemon": "^1.18.3",
+    "pg": "^7.4.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivesingh93/gurunanak550-angular"
+  },
+  "author": "Ivkaran Singh",
+  "license": "ISC"
+}
