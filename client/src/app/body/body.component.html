@@ -8,7 +8,7 @@
         <img src="../../assets/message_3.png" class="text2" alt="Lets celebrate by planting 550 trees at 1820 locations worldwide."/>
       </div>
       <div>
-        <button type="button" class="btn btn-info sign-up-btn">Sign Up</button>
+        <button type="button" class="btn btn-info sign-up-btn" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
       </div>
 
     </div>
@@ -31,3 +31,19 @@
 
 </div>
 <app-gallery></app-gallery>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+

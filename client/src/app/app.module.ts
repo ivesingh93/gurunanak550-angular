@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {BodyModule} from "./body/body.module";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {BodyModule} from './body/body.module';
 
 @NgModule({
   declarations: [

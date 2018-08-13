@@ -5,11 +5,11 @@ const { Pool, Client } = require('pg');
 const config = require('../config/database');
 
 function initialize_client(){
-    return new Client(config.vismaadnaad);
+    return new Client(config.gurunanak550);
 }
 
 function initialize_pool(){
-    return new Pool(config.vismaadnaad);
+    return new Pool(config.gurunanak550);
 }
 
 /*
@@ -25,6 +25,54 @@ function initialize_pool(){
   "source_of_login": "Email"
 }
  */
+
+
+router.post('/register', (req, res) => {
+   let client = initialize_client();
+   client.connect();
+
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+            if (err) throw err;
+            let query = {
+                text: "insert into member (full_name, email, password_hash, phone_number, age, address, organization_name) " +
+                "values ($1, $2, $3, $4, $5, $6, $7)",
+                values: [req.body.full_name, req.body.email, hash, req.body.phone_number,
+                    req.body.age, req.body.address, req.body.organization_name]
+            };
+            client.query(query, (err, sqlResponse) => {
+                console.log(err);
+                if (err){
+                    if (err.constraint === "member_pkey"){
+                        res.json({
+                            "ResponseCode": 400,
+                            "Message": "Email already exists"
+                        });
+                    }else if(err.constraint === "member_phone_number_key"){
+                        res.json({
+                            "ResponseCode": 400,
+                            "Message": "Phone number already exists"
+                        });
+                    }else{
+                        res.json({
+                            "ResponseCode": 400,
+                            "Error": err
+                        });
+                    }
+                }else{
+                    res.json({
+                        "ResponseCode": 200,
+                        "Message": "User Added Successfully"
+                    });
+                }
+                client.end();
+            });
+        });
+    });
+
+});
+
+
 
 // Register users who are using Email
 router.post('/signup', (req, res) => {
