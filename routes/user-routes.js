@@ -31,14 +31,16 @@ router.post('/register', (req, res) => {
    let client = initialize_client();
    client.connect();
 
+   console.log(req.body);
+
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(req.body.password, salt, (err, hash) => {
             if (err) throw err;
             let query = {
                 text: "insert into member (full_name, email, password_hash, phone_number, age, address, organization_name) " +
                 "values ($1, $2, $3, $4, $5, $6, $7)",
-                values: [req.body.full_name, req.body.email, hash, req.body.phone_number,
-                    req.body.age, req.body.address, req.body.organization_name]
+                values: [req.body.fullName, req.body.email, hash, req.body.phoneNumber,
+                    req.body.age, req.body.address, req.body.organizationName]
             };
             client.query(query, (err, sqlResponse) => {
                 console.log(err);

@@ -44,47 +44,47 @@
     <p>Please fill in this form to create an account.</p>
     <hr>
 
-    <form>
+    <form [formGroup]="signup_form">
       <div class="form-row">
         <div class="col-md-4 mb-3">
           <label>Full Name</label>
-          <input type="text" class="form-control" placeholder="Full Name" required>
+          <input type="text" class="form-control" formControlName="fullName" placeholder="Full Name" required>
         </div>
 
         <div class="col-md-4 mb-3">
           <label>Email</label>
-          <input type="text" class="form-control" placeholder="Email" required>
+          <input type="text" class="form-control" formControlName="email" placeholder="Email" required>
         </div>
 
         <div class="col-md-4 mb-3">
           <label>Password</label>
-          <input type="text" class="form-control" placeholder="Password" required>
+          <input type="text" class="form-control" formControlName="password" placeholder="Password" required>
         </div>
       </div>
 
       <div class="form-row">
         <div class="col-md-4 mb-3">
           <label>Phone Number</label>
-          <input type="text" class="form-control" placeholder="Phone Number" required>
+          <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone Number" required>
         </div>
         <div class="col-md-4 mb-3">
           <label>Age</label>
-          <input type="text" class="form-control" placeholder="Age" required>
+          <input type="text" class="form-control" formControlName="age" placeholder="Age" required>
         </div>
         <div class="col-md-4 mb-3">
           <label>Organization Name</label>
-          <input type="text" class="form-control" placeholder="Organization Name" required>
+          <input type="text" class="form-control" formControlName="organizationName" placeholder="Organization Name" required>
         </div>
       </div>
 
       <div class="form-row">
         <div class="col-md-8 mb-3">
           <label>Address</label>
-          <input type="text" class="form-control" placeholder="Address" required>
+          <input type="text" class="form-control" formControlName="address" placeholder="Address" required>
         </div>
       </div>
 
-      <button class="btn btn-primary" type="submit">Submit form</button>
+      <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit form</button>
     </form>
 
   </div>
