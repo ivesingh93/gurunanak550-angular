@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-body',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BodyComponent implements OnInit {
 
-  constructor() { }
+  closeResult: string;
+
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+  }
+
+  openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
 }
