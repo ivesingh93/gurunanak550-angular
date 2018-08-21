@@ -21,8 +21,42 @@
         <li class="nav-item">
           <a class="nav-link" href="#contact-us">Contact Us</a>
         </li>
-        <a class="btn btn-info navbar-btn" href="#contact-us">Donate</a>
+        <li class="nav-item" *ngIf="login">
+          <a class="nav-link" href="#contact-us">Hello, {{user.fullName}}</a>
+        </li>
+        <!--<a class="btn btn-info navbar-btn" href="#contact-us">Donate</a>-->
+        &nbsp; &nbsp;
+        <button *ngIf="!login" type="button" class="btn btn-info sign-up-btn" (click)="onLogin(loginContent)">Login</button>
       </ul>
     </div>
   </div>
 </nav>
+
+
+<ng-template #loginContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Please sign in</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+
+    <form [formGroup]="login_form" >
+      <div class="form-row">
+        <div class="col-md-12 mb-3">
+          <input type="email" class="form-control" formControlName="email" placeholder="Email address" required>
+        </div>
+      </div>
+
+      <div class="form-row text-center">
+        <div class="col-md-12 mb-3">
+          <input type="password" class="form-control" formControlName="password" placeholder="Password" required>
+        </div>
+      </div>
+
+      <button class="btn btn-primary col-md-12" type="submit" (click)="onSubmit()">Sign in</button>
+    </form>
+
+  </div>
+</ng-template>

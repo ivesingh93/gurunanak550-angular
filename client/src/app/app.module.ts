@@ -8,18 +8,19 @@ import { HeaderComponent } from './header/header.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BodyModule} from './body/body.module';
 import {RestService} from "./shared/rest.service";
+import {HeaderModule} from "./header/header.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    HeaderComponent,
   ],
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
     HttpClientModule,
-    BodyModule
+    BodyModule,
+    HeaderModule
   ],
   providers: [RestService],
   bootstrap: [AppComponent]
