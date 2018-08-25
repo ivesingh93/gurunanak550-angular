@@ -9,9 +9,9 @@ import {User} from "../models/user.model";
 })
 export class RestService {
 
-  registerUrl = 'http://localhost/api/userRoutes/register';
-  loginUrl = 'http://localhost/api/userRoutes/login';
-  profileUrl = 'http://localhost/api/userRoutes/profile';
+  registerUrl = '/api/userRoutes/register';
+  loginUrl = '/api/userRoutes/login';
+  profileUrl = '/api/userRoutes/profile';
   authToken;
   user: User;
 

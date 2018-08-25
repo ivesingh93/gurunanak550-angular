@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { Client } = require('pg');
+const { Pool, Client } = require('pg');
 const config = require('../config/database');
 const jwt = require('jsonwebtoken');
 
@@ -9,11 +9,13 @@ function initialize_client(){
     return new Client(config.gurunanak550);
 }
 
+function initialize_pool(){
+    return new Pool(config.gurunanak550);
+}
+
 router.post('/register', (req, res) => {
     let client = initialize_client();
     client.connect();
-
-    console.log(req.body);
 
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(req.body.password, salt, (err, hash) => {
@@ -106,6 +108,54 @@ router.post('/login', (req, res) => {
         }
         client.end();
     });
+});
+
+router.post('/plantationRecord', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    let email = req.body.email;
+    let location = req.body.location;
+    let longitude = req.body.longitude;
+    let latitude = req.body.latitude;
+    let date = req.body.date;
+    let planted_trees = req.body.planted_trees;
+    let plants_types = req.body.plants_types;
+    let remarks = req.body.remarks;
+    let images_videos = req.body.images_videos;
+    console.log(req.body);
+
+    (async () => {
+        const client = await initialize_pool().connect();
+
+        try{
+            await client.query('BEGIN');
+
+            let plantationn_rows = await client.query("insert into plantation (location, longitude, latitude, " +
+                "date, planted_trees, plants_types, remarks) values ($1, $2, $3, $4, $5, $6, $7) returning id",
+                [location, longitude, latitude, date, planted_trees, plants_types, remarks]);
+
+            let plantation_id = plantationn_rows.rows[0].id;
+
+            for(let image_video of images_videos){
+                console.log(image_video);
+                await client.query("insert into images_videos (plantation_id, url) values ($1, $2)", [plantation_id,
+                    image_video]);
+            }
+
+            await client.query("insert into member_plantation (member_id, plantation_id) values ( (select id from member " +
+                "where lower(email) like lower($1)), $2)", [email, plantation_id]);
+
+            await client.query('COMMIT');
+            res.json("Success");
+        }catch(e){
+            await client.query('ROLLBACK');
+            throw e
+        }finally{
+            client.release();
+        }
+    })().catch(e => console.error(e.stack));
+
 });
 
 router.use((req, res, next) => {
