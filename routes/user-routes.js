@@ -157,6 +157,31 @@ router.post('/plantationRecord', (req, res) => {
 
 });
 
+router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    console.log(req.params);
+
+    let query = {
+        text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.location, \n" +
+            "p.longitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks, p.status \n" +
+            "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
+            "where mp.member_id = (select id from member where email = $1) and p.status = $2",
+        values: [req.params.email, req.params.status]
+    };
+
+    client.query(query, (err, sqlResponse) => {
+        if(err){
+            console.log(err);
+            res.json('Failure');
+        }else{
+            res.send(sqlResponse.rows);
+        }
+        client.end();
+    });
+});
+
 router.use((req, res, next) => {
     const token = req.headers['authorization'];
     console.log(req.headers);
