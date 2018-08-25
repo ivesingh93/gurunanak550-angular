@@ -122,8 +122,8 @@ router.post('/plantationRecord', (req, res) => {
     let planted_trees = req.body.planted_trees;
     let plants_types = req.body.plants_types;
     let remarks = req.body.remarks;
+    let status = req.body.status;
     let images_videos = req.body.images_videos;
-    console.log(req.body);
 
     (async () => {
         const client = await initialize_pool().connect();
@@ -132,8 +132,8 @@ router.post('/plantationRecord', (req, res) => {
             await client.query('BEGIN');
 
             let plantationn_rows = await client.query("insert into plantation (location, longitude, latitude, " +
-                "date, planted_trees, plants_types, remarks, status) values ($1, $2, $3, $4, $5, $6, $7, 'Pending Approval') returning id",
-                [location, longitude, latitude, date, planted_trees, plants_types, remarks]);
+                "date, planted_trees, plants_types, remarks, status) values ($1, $2, $3, $4, $5, $6, $7, $8) returning id",
+                [location, longitude, latitude, date, planted_trees, plants_types, remarks, status]);
 
             let plantation_id = plantationn_rows.rows[0].id;
 
@@ -161,11 +161,9 @@ router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
     let client = initialize_client();
     client.connect();
 
-    console.log(req.params);
-
     let query = {
         text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.location, \n" +
-            "p.longitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks, p.status \n" +
+            "p.longitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
             "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
             "where mp.member_id = (select id from member where email = $1) and p.status = $2",
         values: [req.params.email, req.params.status]
