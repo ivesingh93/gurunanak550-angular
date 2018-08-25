@@ -132,13 +132,12 @@ router.post('/plantationRecord', (req, res) => {
             await client.query('BEGIN');
 
             let plantationn_rows = await client.query("insert into plantation (location, longitude, latitude, " +
-                "date, planted_trees, plants_types, remarks) values ($1, $2, $3, $4, $5, $6, $7) returning id",
+                "date, planted_trees, plants_types, remarks, status) values ($1, $2, $3, $4, $5, $6, $7, 'Pending Approval') returning id",
                 [location, longitude, latitude, date, planted_trees, plants_types, remarks]);
 
             let plantation_id = plantationn_rows.rows[0].id;
 
             for(let image_video of images_videos){
-                console.log(image_video);
                 await client.query("insert into images_videos (plantation_id, url) values ($1, $2)", [plantation_id,
                     image_video]);
             }
