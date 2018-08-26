@@ -157,23 +157,55 @@ router.post('/plantationRecord', (req, res) => {
 
 });
 
-router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
+router.post('/updatePlantationRecord', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    let plantation_id = req.body.plantation_id;
+    let approved = req.body.approved;
+    let status;
+    if(approved){
+        status = 'Approved';
+    }else{
+        status = 'Declined';
+    }
+
+    client.query('update plantation set status = $1 where id = $2', [status, plantation_id], (err, sqlResponse) => {
+        if (err){
+            console.log(err);
+            res.json({
+                "ResponseCode": 400,
+                "Message": "Error"
+            })
+        }else{
+            res.json({
+                "ResponseCode": 200,
+                "Message": "Updated Successfully"
+            });
+        }
+        client.end();
+    });
+
+});
+
+router.get('/plantationRecord/email=:email&status=:status',
+    (req, res) => {
     let client = initialize_client();
     client.connect();
     let query;
 
     if(req.params.email === 'null'){
         query = {
-            text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.location, \n" +
-                "p.longitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
+            text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.id, p.location, \n" +
+                "p.longitude, p.latitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
                 "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
                 "where p.status = $1",
             values: [req.params.status]
         };
     }else{
         query = {
-            text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.location, \n" +
-                "p.longitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
+            text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.id, p.location, \n" +
+                "p.longitude, p.latitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
                 "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
                 "where mp.member_id = (select id from member where email = $1) and p.status = $2",
             values: [req.params.email, req.params.status]

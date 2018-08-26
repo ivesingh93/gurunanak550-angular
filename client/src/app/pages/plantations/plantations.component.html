@@ -1,0 +1,101 @@
+<div class="basic-container">
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+
+      <!-- Checkbox Column -->
+      <!--<ng-container matColumnDef="select">-->
+        <!--<th mat-header-cell *matHeaderCellDef class="column-header-row">-->
+          <!--<mat-checkbox (change)="$event ? masterToggle() : null"-->
+                        <!--[checked]="selection.hasValue() && isAllSelected()"-->
+                        <!--[indeterminate]="selection.hasValue() && !isAllSelected()">-->
+          <!--</mat-checkbox>-->
+        <!--</th>-->
+        <!--<td mat-cell *matCellDef="let row">-->
+          <!--<mat-checkbox (click)="$event.stopPropagation()"-->
+                        <!--(change)="$event ? selection.toggle(row) : null"-->
+                        <!--[checked]="selection.isSelected(row)">-->
+          <!--</mat-checkbox>-->
+        <!--</td>-->
+      <!--</ng-container>-->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="full_name">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Full Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.full_name}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Location </th>
+        <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="organization_name">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Organization Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.organization_name}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="total_trees_planted">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Total Trees Planted </th>
+        <td mat-cell *matCellDef="let element"> {{element.total_trees_planted}} </td>
+      </ng-container>
+
+      <!-- Plants Types Column -->
+      <ng-container matColumnDef="plants_types">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Plants Types </th>
+        <td mat-cell *matCellDef="let element"> {{element.plants_types}} </td>
+      </ng-container>
+
+      <!-- Remarks Column -->
+      <ng-container matColumnDef="remarks">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Remarks </th>
+        <td mat-cell *matCellDef="let element"> {{element.remarks}} </td>
+      </ng-container>
+
+      <!-- Date Planted Column -->
+      <ng-container matColumnDef="date_planted">
+        <th mat-header-cell *matHeaderCellDef class="column-header-row" mat-sort-header> Date Planted </th>
+        <td mat-cell *matCellDef="let element"> {{element.date_planted | date}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="rowClicked(i, row)"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <br><br>
+
+  <div class="row" *ngIf="selectedLat">
+
+    <div class="col-md-8">
+      <agm-map [latitude]="selectedLat" [longitude]="selectedLng">
+        <agm-marker [latitude]="selectedLat" [longitude]="selectedLng"></agm-marker>
+      </agm-map>
+    </div>
+
+    <div class="col-md-4">
+      <div class="text-center">
+        <button type="button" class="btn btn-success" (click)="onSubmit(true)">Approve Plantation Recording</button>
+        &nbsp; &nbsp;
+        <button type="button" class="btn btn-danger" (click)="onSubmit(false)">Decline Plantation Recording</button>
+        <br><br>
+        <slideshow [height]="'800px'" [showDots]="true" [imageUrls]="imageUrlArray"></slideshow>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+
+</div>
+
+
+

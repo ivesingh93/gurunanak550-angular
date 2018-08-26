@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+}
+
+.basic-container {
+  padding: 30px;
+  height: 40%;
+  overflow: auto;
+}
+
+tr:nth-child(odd){
+  background-color: #e9e9e9;
+  font-size: 15px;
+}
+
+tr:nth-child(even){
+  background-color: #f6f6f6;
+  font-size: 15px;
+}
+
+.column-header-row {
+  top: 0;
+  position: sticky;
+  z-index: 1;
+  background-color: #6f42c1;
+  font-size: 17px;
+  color: #fff;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-sort-header-arrow {
+  color: red !important;
+}
+
+.mat-sort-header-stem {
+  color: yellow !important;
+}
+
+agm-map {
+  height: 100%;
+  width: 100%;
+}
+

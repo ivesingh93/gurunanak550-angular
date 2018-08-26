@@ -7,15 +7,30 @@ import {User} from "../models/user.model";
 @Injectable({
   providedIn: 'root'
 })
-export class RestService {
+export class RestService
+{
 
-  registerUrl = '/api/userRoutes/register';
-  loginUrl = '/api/userRoutes/login';
-  profileUrl = '/api/userRoutes/profile';
+  localhost = "http://localhost";
+  locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=null&status=Pending Approval';
+  registerUrl = this.localhost + '/api/userRoutes/register';
+  loginUrl = this.localhost + '/api/userRoutes/login';
+  profileUrl = this.localhost + '/api/userRoutes/profile';
+  updatePlantationRecordURL = this.localhost + '/api/userRoutes/updatePlantationRecord';
   authToken;
   user: User;
 
   constructor(private http: HttpClient) { }
+
+  getLocations(){
+    return this.http.get(this.locationsURL);
+  }
+
+  updatePlantationRecord(plantation_id: number, approved: boolean){
+    return this.http.post(this.updatePlantationRecordURL, {
+      plantation_id: plantation_id,
+      approved: approved
+    });
+  }
 
   registerUser(user: User) {
     return this.http.post<User>(this.registerUrl, user);
