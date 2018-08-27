@@ -34,7 +34,7 @@ export class PlantationsComponent implements OnInit {
   constructor(private restService: RestService) { }
 
   ngOnInit() {
-    this.restService.getLocations()
+    this.restService.getLocations("Pending Approval")
       .subscribe(locations => this.extractLocationsData(locations));
   }
 

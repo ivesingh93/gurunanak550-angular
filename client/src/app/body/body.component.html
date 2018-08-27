@@ -8,7 +8,8 @@
         <img src="../../assets/message_3.png" class="text2" alt="Lets celebrate by planting 550 trees at 1820 locations worldwide."/>
       </div>
       <div>
-        <button type="button" class="btn btn-info sign-up-btn" (click)="openVerticallyCentered(content)">Sign Up</button>
+        <!--<button type="button" class="btn btn-info sign-up-btn" (click)="openVerticallyCentered(content)">Sign Up</button>-->
+        <button type="button" class="btn btn-info sign-up-btn" (click)="openVerticallyCentered(content)">Show Planted Locations</button>
       </div>
 
     </div>
@@ -35,57 +36,91 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Sign Up Form</h4>
+    <h4 class="modal-title">Planted Locations</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <!--<div class="modal-body">-->
+    <!--<p>Please fill in this form to create an account.</p>-->
+    <!--<hr>-->
+
+    <!--<form [formGroup]="signup_form">-->
+      <!--<div class="form-row">-->
+        <!--<div class="col-md-4 mb-3">-->
+          <!--&lt;!&ndash;<label>Full Name</label>&ndash;&gt;-->
+          <!--<input type="text" class="form-control" formControlName="fullName" placeholder="Full Name" required>-->
+        <!--</div>-->
+
+        <!--<div class="col-md-4 mb-3">-->
+          <!--&lt;!&ndash;<label>Email</label>&ndash;&gt;-->
+          <!--<input type="email" class="form-control" formControlName="email" placeholder="Email" required>-->
+        <!--</div>-->
+
+        <!--<div class="col-md-4 mb-3">-->
+          <!--&lt;!&ndash;<label>Password</label>&ndash;&gt;-->
+          <!--<input type="password" class="form-control" formControlName="password" placeholder="Password" required>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="form-row">-->
+        <!--<div class="col-md-4 mb-3">-->
+          <!--&lt;!&ndash;<label>Phone Number</label>&ndash;&gt;-->
+          <!--<input type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone Number" required>-->
+        <!--</div>-->
+        <!--<div class="col-md-4 mb-3">-->
+          <!--&lt;!&ndash;<label>Age</label>&ndash;&gt;-->
+          <!--<input type="text" class="form-control" formControlName="age" placeholder="Age" required>-->
+        <!--</div>-->
+        <!--<div class="col-md-4 mb-3">-->
+          <!--&lt;!&ndash;<label>Organization Name</label>&ndash;&gt;-->
+          <!--<input type="text" class="form-control" formControlName="organizationName" placeholder="Organization Name" required>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="form-row">-->
+        <!--<div class="col-md-8 mb-3">-->
+          <!--&lt;!&ndash;<label>Address</label>&ndash;&gt;-->
+          <!--<input type="text" class="form-control" formControlName="address" placeholder="Address" required>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit form</button>-->
+    <!--</form>-->
+
+  <!--</div>-->
+
   <div class="modal-body">
-    <p>Please fill in this form to create an account.</p>
-    <hr>
+    <div class="row">
 
-    <form [formGroup]="signup_form">
-      <div class="form-row">
-        <div class="col-md-4 mb-3">
-          <!--<label>Full Name</label>-->
-          <input type="text" class="form-control" formControlName="fullName" placeholder="Full Name" required>
-        </div>
+      <div class="col-md-12">
+        <agm-map *ngIf="locationsData.length > 0" [latitude]="latitude" [longitude]="longitude"
+                 [disableDefaultUI]="false" [zoomControl]="false">
+          <agm-marker
+            *ngFor="let location of locationsData; let i = index"
+            (markerClick)="clickedMarker(i)"
+            [latitude]="location.latitude"
+            [longitude]="location.longitude">
+          </agm-marker>
 
-        <div class="col-md-4 mb-3">
-          <!--<label>Email</label>-->
-          <input type="email" class="form-control" formControlName="email" placeholder="Email" required>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <!--<label>Password</label>-->
-          <input type="password" class="form-control" formControlName="password" placeholder="Password" required>
-        </div>
+          <agm-info-window></agm-info-window>
+        </agm-map>
       </div>
 
-      <div class="form-row">
-        <div class="col-md-4 mb-3">
-          <!--<label>Phone Number</label>-->
-          <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone Number" required>
-        </div>
-        <div class="col-md-4 mb-3">
-          <!--<label>Age</label>-->
-          <input type="text" class="form-control" formControlName="age" placeholder="Age" required>
-        </div>
-        <div class="col-md-4 mb-3">
-          <!--<label>Organization Name</label>-->
-          <input type="text" class="form-control" formControlName="organizationName" placeholder="Organization Name" required>
-        </div>
+      <div class="col-md-12">
+        fwerwerqwefqwef
+        <br>
+        fsdafawer
+        <br>
+        asdfae
+        <br>
+        asdfasd
+
       </div>
 
-      <div class="form-row">
-        <div class="col-md-8 mb-3">
-          <!--<label>Address</label>-->
-          <input type="text" class="form-control" formControlName="address" placeholder="Address" required>
-        </div>
-      </div>
 
-      <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit form</button>
-    </form>
+    </div>
 
   </div>
+
 </ng-template>

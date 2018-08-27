@@ -13,11 +13,17 @@ export class BodyComponent implements OnInit {
 
   closeResult: string;
   signup_form: FormGroup;
+  longitude: number = -77.234725;
+  latitude: number = 39.0827175;
+  locationsData = [];
+
 
   constructor(private modalService: NgbModal, private restService: RestService) { }
 
   ngOnInit() {
     this.createForm();
+    this.restService.getLocations("Approved")
+      .subscribe(locations => this.extractLocationsData(locations));
   }
 
   onSubmit() {
@@ -44,6 +50,18 @@ export class BodyComponent implements OnInit {
 
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+
+  private extractLocationsData(locations){
+    this.locationsData = locations;
+    for(let i = 0; i < this.locationsData.length; i++){
+      this.locationsData[i]['longitude'] = Number(this.locationsData[i]['longitude']);
+      this.locationsData[i]['latitude'] = Number(this.locationsData[i]['latitude']);
+    }
+  }
+
+  clickedMarker(index: number) {
+    console.log(this.locationsData[index]);
   }
 
 }

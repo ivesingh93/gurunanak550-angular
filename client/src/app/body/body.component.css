@@ -209,3 +209,8 @@ dark-modal .modal-content {
 .light-blue-backdrop {
   background-color: #5cb3fd;
 }
+
+agm-map {
+  height: 500px;
+  width: 100%;
+}

@@ -11,7 +11,7 @@ export class RestService
 {
 
   localhost = "http://localhost";
-  locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=null&status=Pending Approval';
+  locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=null&status=';
   registerUrl = this.localhost + '/api/userRoutes/register';
   loginUrl = this.localhost + '/api/userRoutes/login';
   profileUrl = this.localhost + '/api/userRoutes/profile';
@@ -21,8 +21,8 @@ export class RestService
 
   constructor(private http: HttpClient) { }
 
-  getLocations(){
-    return this.http.get(this.locationsURL);
+  getLocations(status: string){
+    return this.http.get(this.locationsURL + status);
   }
 
   updatePlantationRecord(plantation_id: number, approved: boolean){
