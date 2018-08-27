@@ -114,6 +114,7 @@ router.post('/plantationRecord', (req, res) => {
     let client = initialize_client();
     client.connect();
 
+    console.log(req.body);
     let email = req.body.email;
     let location = req.body.location;
     let longitude = req.body.longitude;
@@ -146,7 +147,10 @@ router.post('/plantationRecord', (req, res) => {
                 "where lower(email) like lower($1)), $2)", [email, plantation_id]);
 
             await client.query('COMMIT');
-            res.json("Success");
+            res.json({
+                "ResponseCode": 200,
+                "Message": "Success"
+            });
         }catch(e){
             await client.query('ROLLBACK');
             throw e
