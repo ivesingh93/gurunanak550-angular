@@ -198,23 +198,40 @@ router.get('/plantationRecord/email=:email&status=:status',
     client.connect();
     let query;
 
-    if(req.params.email === 'null'){
+    if(req.params.email === 'all' && req.params.status === 'all') {
         query = {
             text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.id, p.location, \n" +
-                "p.longitude, p.latitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
+                "p.longitude, p.latitude, p.status, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
+                "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id",
+            values: []
+        };
+
+    }else if (req.params.email === 'all') {
+        query = {
+            text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.id, p.location, \n" +
+                "p.longitude, p.latitude, p.status, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
                 "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
                 "where p.status = $1",
             values: [req.params.status]
         };
-    }else{
+    }else if(req.params.status === 'all') {
         query = {
             text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.id, p.location, \n" +
-                "p.longitude, p.latitude, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
+                "p.longitude, p.latitude, p.status, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
+                "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
+                "where mp.member_id = (select id from member where email = $1)",
+            values: [req.params.email]
+        };
+    }else {
+        query = {
+            text: "select m.full_name, m.email, m.phone_number, m.organization_name, p.id, p.location, \n" +
+                "p.longitude, p.latitude, p.status, p.date as date_planted, p.planted_trees as total_trees_planted, p.plants_types, p.remarks \n" +
                 "from member_plantation as mp join member as m on m.id = mp.member_id join plantation as p on p.id = mp.plantation_id\n" +
                 "where mp.member_id = (select id from member where email = $1) and p.status = $2",
             values: [req.params.email, req.params.status]
         };
     }
+
 
     client.query(query, (err, sqlResponse) => {
         if(err){
