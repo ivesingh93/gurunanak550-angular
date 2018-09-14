@@ -9,7 +9,7 @@ describe('RestService', () => {
     });
   });
 
-  it('should be created', inject([RestService], (service: RestService) => {
+  fit('should be created', inject([RestService], (service: RestService) => {
     expect(service).toBeTruthy();
   }));
 });

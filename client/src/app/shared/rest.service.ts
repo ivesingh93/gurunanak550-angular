@@ -11,7 +11,7 @@ export class RestService
 {
 
   localhost = "http://localhost";
-  locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=null&status=';
+  locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=all&status=';
   registerUrl = this.localhost + '/api/userRoutes/register';
   loginUrl = this.localhost + '/api/userRoutes/login';
   profileUrl = this.localhost + '/api/userRoutes/profile';

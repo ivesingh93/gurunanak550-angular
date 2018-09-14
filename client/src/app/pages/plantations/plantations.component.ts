@@ -29,12 +29,15 @@ export class PlantationsComponent implements OnInit {
   selectedLat: number;
   selectedLng: number;
   selectedRow;
-  imageUrlArray = [];
+  imageUrlArray = ["https://images.all-free-download.com/images/graphiclarge/flower_pot_plants_02_hd_pictures_169218.jpg",
+    "https://images.all-free-download.com/images/graphiclarge/flower_flowers_plant_218214.jpg",
+    "https://images.all-free-download.com/images/graphiclarge/flower_209610.jpg"
+  ];
 
   constructor(private restService: RestService) { }
 
   ngOnInit() {
-    this.restService.getLocations("Pending Approval")
+    this.restService.getLocations("Pending")
       .subscribe(locations => this.extractLocationsData(locations));
   }
 

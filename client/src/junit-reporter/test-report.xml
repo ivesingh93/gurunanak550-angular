@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 68.0.3440 (Mac OS X 10.13.6)" package="" timestamp="2018-09-14T02:46:27" id="0" hostname="Ivkarans-iMac.local" tests="6" errors="0" failures="1" time="0.058">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/68.0.3440.106 Safari/537.36"/>
+  </properties>
+  <testcase name="PlantationApprovalComponent should create" time="0.05" classname="PlantationApprovalComponent"/>
+  <testcase name="RestService should be created" time="0.008" classname="RestService">
+    <failure type="">Error: StaticInjectorError(DynamicTestModule)[RestService -&gt; HttpClient]: 
+  StaticInjectorError(Platform: core)[RestService -&gt; HttpClient]: 
+    NullInjectorError: No provider for HttpClient!
+    at NullInjector.get (webpack:///./node_modules/@angular/core/fesm5/core.js?:1359:19)
+    at resolveToken (webpack:///./node_modules/@angular/core/fesm5/core.js?:1597:24)
+    at tryResolveToken (webpack:///./node_modules/@angular/core/fesm5/core.js?:1541:16)
+    at StaticInjector.get (webpack:///./node_modules/@angular/core/fesm5/core.js?:1438:20)
+    at resolveToken (webpack:///./node_modules/@angular/core/fesm5/core.js?:1597:24)
+    at tryResolveToken (webpack:///./node_modules/@angular/core/fesm5/core.js?:1541:16)
+    at StaticInjector.get (webpack:///./node_modules/@angular/core/fesm5/core.js?:1438:20)
+    at resolveNgModuleDep (webpack:///./node_modules/@angular/core/fesm5/core.js?:8673:29)
+    at _createClass (webpack:///./node_modules/@angular/core/fesm5/core.js?:8718:29)
+    at _createProviderInstance (webpack:///./node_modules/@angular/core/fesm5/core.js?:8690:26)
+</failure>
+  </testcase>
+  <testcase name="AppComponent should create the app" time="0" classname="AppComponent">
+    <skipped/>
+  </testcase>
+  <testcase name="AppComponent should have as title 'client'" time="0" classname="AppComponent">
+    <skipped/>
+  </testcase>
+  <testcase name="AppComponent should render title in a h1 tag" time="0" classname="AppComponent">
+    <skipped/>
+  </testcase>
+  <testcase name="PlantationsComponent should create" time="0" classname="PlantationsComponent">
+    <skipped/>
+  </testcase>
+  <system-out>
+    <![CDATA[HeadlessChrome 68.0.3440 (Mac OS X 10.13.6) ERROR: 'DEPRECATION: fit and fdescribe will cause your suite to report an 'incomplete' status in Jasmine 3.0'
+,HeadlessChrome 68.0.3440 (Mac OS X 10.13.6) ERROR: 'DEPRECATION: fit and fdescribe will cause your suite to report an 'incomplete' status in Jasmine 3.0'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
