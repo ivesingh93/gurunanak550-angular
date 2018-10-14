@@ -110,6 +110,43 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.post('/updatePassword', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.updated_password, salt, (err, hash) => {
+            if (err) throw err;
+            let query = {
+                text: "update member set password_hash = $1 where email = $2",
+                values: [hash, req.body.email]
+            };
+            client.query(query, (err, sqlResponse) => {
+                console.log(err);
+                if (err){
+                    res.json({
+                        "ResponseCode": 400,
+                        "Message": "Error updating password"
+                    });
+                }else{
+                    if(sqlResponse.rowCount === 1 ){
+                        res.json({
+                            "ResponseCode": 200,
+                            "Message": "Password Updated Successfully"
+                        });
+                    }else{
+                        res.json({
+                            "ResponseCode": 200,
+                            "Message": "Account not found"
+                        });
+                    }
+                }
+                client.end();
+            });
+        });
+    });
+});
+
 router.post('/plantationRecord', (req, res) => {
     let client = initialize_client();
     client.connect();
@@ -249,6 +286,8 @@ router.get('/queries/:query', (req, res) => {
         client.end();
     });
 });
+
+
 
 router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
     let client = initialize_client();
