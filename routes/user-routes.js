@@ -192,8 +192,65 @@ router.post('/updatePlantationRecord', (req, res) => {
 
 });
 
-router.get('/plantationRecord/email=:email&status=:status',
-    (req, res) => {
+router.post('/query', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    let query = {
+        text: "insert into faqs (query, query_by, view) values ($1, (select id from member where email = $2), $3)",
+        values: [req.body.query, req.body.query_by, req.body.view]
+    };
+
+    client.query(query, (err, sqlRes) => {
+        if (err){
+            console.log(err);
+            res.json({
+                "ResponseCode": 400,
+                "Message": "Error"
+            })
+        }else{
+            res.json({
+                "ResponseCode": 200,
+                "Message": "Query posted Successfully"
+            });
+        }
+        client.end();
+    });
+});
+
+router.get('/queries/:query', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    let query;
+
+    if(req.params.query === 'all'){
+        query = {
+            text: "select * from faqs where view = true",
+            values: []
+        };
+    }else{
+        query = {
+            text: "select * from faqs where id = $1",
+            values: [req.params.query]
+        };
+    }
+
+    client.query(query, (err, sqlRes) => {
+        if (err){
+            console.log(err);
+            res.json({
+                "ResponseCode": 400,
+                "Message": "Error"
+            })
+        }else{
+            res.send(sqlRes.rows);
+        }
+        client.end();
+    });
+});
+
+router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
     let client = initialize_client();
     client.connect();
     let query;
@@ -234,6 +291,7 @@ router.get('/plantationRecord/email=:email&status=:status',
 
 
     client.query(query, (err, sqlResponse) => {
+        console.log(sqlResponse.rows);
         if(err){
             console.log(err);
             res.json('Failure');
