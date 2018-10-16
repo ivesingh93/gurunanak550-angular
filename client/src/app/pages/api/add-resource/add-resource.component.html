@@ -1,0 +1,50 @@
+<div class="container-fluid">
+
+  <h1>Add Resources</h1>
+
+  <div class="form-group">
+
+    <div class="col-md-6">
+      <!--Select Resource Category-->
+      <div>
+        <mat-form-field>
+          <mat-select placeholder="Resource Category" (selectionChange)="selectedCategory = $event.value">
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{category}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col-md-6" >
+      <label>Resource Title: </label>
+      <br>
+      <input type="text" class="form-control"
+             [(ngModel)]="resourceTitle">
+      <br>
+    </div>
+    <div class="col-md-6" >
+      <label>Resource Description: </label>
+      <br>
+      <input type="text" class="form-control"
+             [(ngModel)]="resourceDescription">
+    </div>
+
+  </div>
+
+
+  <div class="col-md-6">
+    <label>Resource URL: </label>&nbsp;&nbsp;
+    <input type="text" class="form-control"
+           [(ngModel)]="resourceURL">
+  </div>
+
+  <br><br>
+
+  <div class="col-md-4">
+    <button class="btn btn-primary" type="submit" style="background-color: #673ab7" (click)="onSubmit()">Submit</button>
+  </div>
+
+
+</div>

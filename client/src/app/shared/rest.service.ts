@@ -16,6 +16,8 @@ export class RestService
   loginUrl = this.localhost + '/api/userRoutes/login';
   profileUrl = this.localhost + '/api/userRoutes/profile';
   updatePlantationRecordURL = this.localhost + '/api/userRoutes/updatePlantationRecord';
+  resourceCategoriesURL = this.localhost + "/api/userRoutes/resourceCategories";
+  addResourceURL = this.localhost + "/api/userRoutes/addResource";
   authToken;
   user: User;
 
@@ -23,6 +25,14 @@ export class RestService
 
   getLocations(status: string){
     return this.http.get(this.locationsURL + status);
+  }
+
+  getResourceCategories(){
+    return this.http.get(this.resourceCategoriesURL);
+  }
+
+  addResource(resource){
+    return this.http.post(this.addResourceURL, resource);
   }
 
   updatePlantationRecord(plantation_id: number, approved: boolean){

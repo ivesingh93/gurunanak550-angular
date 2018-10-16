@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const { Pool, Client } = require('pg');
 const config = require('../config/database');
 const jwt = require('jsonwebtoken');
+const queries = require('../config/queries');
+const constants = require('../config/constants');
 
 function initialize_client(){
     return new Client(config.gurunanak550);
@@ -255,6 +257,27 @@ router.post('/query', (req, res) => {
     });
 });
 
+router.post('/addResource', (req, res) => {
+   let client = initialize_client();
+   client.connect();
+
+   console.log(req.body);
+   let query = {
+       text: queries.ADD_RESOURCE,
+       values: [req.body.resourceURL, req.body.resourceURL, req.body.resourceTitle, req.body.resourceDescription, req.body.selectedCategory]
+   };
+   client.query(query, (err, sqlRes) => {
+      if(err){
+          console.log(sqlRes);
+          console.log(err);
+          res.json(constants.FAILED_RESPONSE)
+      }else{
+          res.json(constants.SUCCESS_RESPONSE);
+      }
+      client.end();
+   });
+});
+
 router.get('/queries/:query', (req, res) => {
     let client = initialize_client();
     client.connect();
@@ -287,7 +310,23 @@ router.get('/queries/:query', (req, res) => {
     });
 });
 
+router.get('/resourceCategories', (req, res) => {
+   let client = initialize_client();
+   client.connect();
 
+   client.query(queries.GET_RESOURCE_CATEGORIES, (err, sqlRes) => {
+      if(err){
+          console.log(err);
+          res.json(constants.FAILED_RESPONSE);
+      } else{
+          let categories = [];
+          for(let row of sqlRes.rows){
+              categories.push(row['category']);
+          }
+          res.send(categories);
+      }
+   });
+});
 
 router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
     let client = initialize_client();
