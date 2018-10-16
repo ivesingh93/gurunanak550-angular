@@ -264,7 +264,7 @@ router.post('/addResource', (req, res) => {
    console.log(req.body);
    let query = {
        text: queries.ADD_RESOURCE,
-       values: [req.body.resourceURL, req.body.resourceURL, req.body.resourceTitle, req.body.resourceDescription, req.body.selectedCategory]
+       values: [req.body.resourceURL, req.body.resourceThumbnailURL, req.body.resourceTitle, req.body.resourceDescription, req.body.selectedCategory]
    };
    client.query(query, (err, sqlRes) => {
       if(err){

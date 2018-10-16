@@ -10,9 +10,10 @@ export class AddResourceComponent implements OnInit {
 
   categories: string[];
   selectedCategory: string;
-  resourceURL: string;
   resourceTitle: string;
   resourceDescription: string;
+  resourceURL: string;
+  resourceThumbnailURL: string;
 
   constructor(private restService: RestService) { }
 
@@ -22,16 +23,13 @@ export class AddResourceComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.selectedCategory);
-    console.log(this.resourceTitle);
-    console.log(this.resourceDescription);
-    console.log(this.resourceURL);
 
     let resource = {
       selectedCategory: this.selectedCategory,
       resourceTitle: this.resourceTitle,
       resourceDescription: this.resourceDescription,
-      resourceURL: this.resourceURL
+      resourceURL: this.resourceURL,
+      resourceThumbnailURL: this.resourceThumbnailURL
     };
 
     this.restService.addResource(resource)
