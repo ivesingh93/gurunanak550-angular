@@ -328,6 +328,21 @@ router.post('/addQA', (req, res) => {
     });
 });
 
+router.get('/faqs', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    client.query(queries.VIEW_FAQS, (err, sqlRes) => {
+        if(err){
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE);
+        } else{
+            res.send(sqlRes.rows);
+        }
+        client.end();
+    });
+});
+
 router.get('/queries/:query', (req, res) => {
     let client = initialize_client();
     client.connect();

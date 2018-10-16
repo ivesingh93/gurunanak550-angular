@@ -10,7 +10,7 @@ import {User} from "../models/user.model";
 export class RestService
 {
 
-  localhost = "http://localhost";
+  localhost = "";
   locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=all&status=';
   registerUrl = this.localhost + '/api/userRoutes/register';
   loginUrl = this.localhost + '/api/userRoutes/login';
