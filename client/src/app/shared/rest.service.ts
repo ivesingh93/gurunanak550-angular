@@ -18,6 +18,8 @@ export class RestService
   updatePlantationRecordURL = this.localhost + '/api/userRoutes/updatePlantationRecord';
   resourceCategoriesURL = this.localhost + "/api/userRoutes/resourceCategories";
   addResourceURL = this.localhost + "/api/userRoutes/addResource";
+  viewQueries = this.localhost + "/api/userRoutes/viewQueries";
+  updateQueriesStatus = this.localhost + "/api/userRoutes/updateQueriesStatus";
   authToken;
   user: User;
 
@@ -27,12 +29,20 @@ export class RestService
     return this.http.get(this.locationsURL + status);
   }
 
+  getQueries(){
+    return this.http.get(this.viewQueries);
+  }
+
   getResourceCategories(){
     return this.http.get(this.resourceCategoriesURL);
   }
 
   addResource(resource){
     return this.http.post(this.addResourceURL, resource);
+  }
+
+  updateQueries(queries){
+    return this.http.post(this.updateQueriesStatus, queries);
   }
 
   updatePlantationRecord(plantation_id: number, approved: boolean){

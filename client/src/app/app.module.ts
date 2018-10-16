@@ -12,16 +12,19 @@ import {PlantationsComponent} from "./pages/plantations/plantations.component";
 import { AddResourceComponent } from './pages/api/add-resource/add-resource.component';
 import {AddResourceModule} from "./pages/api/add-resource/add-resource.module";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { QueriesComponent } from './pages/api/queries/queries.component';
+import {QueriesModule} from "./pages/api/queries/queries.module";
 
 const routes: Routes = [
   {path: 'plantations', component: PlantationsComponent},
-  {path: 'add-resource', component: AddResourceComponent}
+  {path: 'add-resource', component: AddResourceComponent},
+  {path: 'queries', component: QueriesComponent},
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ const routes: Routes = [
     HeaderModule,
     PlantationsModule,
     AddResourceModule,
+    QueriesModule,
     RouterModule.forRoot(routes)
 
   ],

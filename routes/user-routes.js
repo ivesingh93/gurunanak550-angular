@@ -278,6 +278,35 @@ router.post('/addResource', (req, res) => {
    });
 });
 
+router.post('/updateQueriesStatus', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    console.log(req.body);
+    (async () => {
+        const client = await initialize_pool().connect();
+
+        try{
+            await client.query('BEGIN');
+
+            for(let query of req.body){
+                await client.query(queries.UPDATE_QUERIES_STATUS, [query.query_id]);
+            }
+
+            await client.query('COMMIT');
+            res.json({
+                "ResponseCode": 200,
+                "Message": "Success"
+            });
+        }catch(e){
+            await client.query('ROLLBACK');
+            throw e
+        }finally{
+            client.release();
+        }
+    })().catch(e => console.error(e.stack));
+});
+
 router.get('/queries/:query', (req, res) => {
     let client = initialize_client();
     client.connect();
@@ -307,6 +336,21 @@ router.get('/queries/:query', (req, res) => {
             res.send(sqlRes.rows);
         }
         client.end();
+    });
+});
+
+router.get('/viewQueries', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    client.query(queries.VIEW_UNANSWERED_QUERIES, (err, sqlRes) => {
+       if(err){
+           console.log(err);
+           res.json(constants.FAILED_RESPONSE);
+       } else{
+           res.send(sqlRes.rows);
+       }
+       client.end();
     });
 });
 
