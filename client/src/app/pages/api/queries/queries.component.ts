@@ -36,7 +36,7 @@ export class QueriesComponent implements OnInit {
 
   onSubmit(){
     console.log(this.selection.selected);
-    this.restService.updateQueries(this.selection.selected)
+    this.restService.updateQueriesStatus(this.selection.selected)
       .subscribe(data => location.reload());
   }
 

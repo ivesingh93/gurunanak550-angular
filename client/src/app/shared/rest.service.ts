@@ -19,7 +19,8 @@ export class RestService
   resourceCategoriesURL = this.localhost + "/api/userRoutes/resourceCategories";
   addResourceURL = this.localhost + "/api/userRoutes/addResource";
   viewQueries = this.localhost + "/api/userRoutes/viewQueries";
-  updateQueriesStatus = this.localhost + "/api/userRoutes/updateQueriesStatus";
+  updateQueriesStatusURL = this.localhost + "/api/userRoutes/updateQueriesStatus";
+  addQAURL = this.localhost + "/api/userRoutes/addQA";
   authToken;
   user: User;
 
@@ -41,8 +42,15 @@ export class RestService
     return this.http.post(this.addResourceURL, resource);
   }
 
-  updateQueries(queries){
-    return this.http.post(this.updateQueriesStatus, queries);
+  updateQueriesStatus(queries){
+    return this.http.post(this.updateQueriesStatusURL, queries);
+  }
+
+  addQA(question, answer){
+    return this.http.post(this.addQAURL, {
+      question,
+      answer
+    });
   }
 
   updatePlantationRecord(plantation_id: number, approved: boolean){

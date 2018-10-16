@@ -307,6 +307,27 @@ router.post('/updateQueriesStatus', (req, res) => {
     })().catch(e => console.error(e.stack));
 });
 
+router.post('/addQA', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    console.log(req.body);
+    let query = {
+        text: queries.ADD_QUESTION_ANSWER,
+        values: [req.body.question, req.body.answer]
+    };
+    client.query(query, (err, sqlRes) => {
+        if(err){
+            console.log(sqlRes);
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE)
+        }else{
+            res.json(constants.SUCCESS_RESPONSE);
+        }
+        client.end();
+    });
+});
+
 router.get('/queries/:query', (req, res) => {
     let client = initialize_client();
     client.connect();

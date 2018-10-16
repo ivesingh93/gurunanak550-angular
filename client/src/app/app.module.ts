@@ -14,11 +14,14 @@ import {AddResourceModule} from "./pages/api/add-resource/add-resource.module";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { QueriesComponent } from './pages/api/queries/queries.component';
 import {QueriesModule} from "./pages/api/queries/queries.module";
+import { FaqsComponent } from './pages/api/faqs/faqs.component';
+import {FaqsModule} from "./pages/api/faqs/faqs.module";
 
 const routes: Routes = [
   {path: 'plantations', component: PlantationsComponent},
   {path: 'add-resource', component: AddResourceComponent},
   {path: 'queries', component: QueriesComponent},
+  {path: 'faqs', component: FaqsComponent},
 ];
 
 @NgModule({
@@ -35,6 +38,7 @@ const routes: Routes = [
     PlantationsModule,
     AddResourceModule,
     QueriesModule,
+    FaqsModule,
     RouterModule.forRoot(routes)
 
   ],

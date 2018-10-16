@@ -1,0 +1,31 @@
+<div class="container-fluid">
+
+  <h1>Add Question/Answer</h1>
+
+  <div class="form-group">
+
+    <div class="col-md-6" >
+      <label>Question: </label>
+      <br>
+      <input type="text" class="form-control"
+             [(ngModel)]="question">
+      <br>
+    </div>
+    <div class="col-md-6" >
+      <label>Answer: </label>
+      <br>
+      <textarea rows="4" cols="50" class="form-control"
+             [(ngModel)]="answer">
+      </textarea>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="col-md-4">
+    <button class="btn btn-primary" type="submit" style="background-color: #673ab7" (click)="onSubmit()">Submit</button>
+  </div>
+
+
+</div>
