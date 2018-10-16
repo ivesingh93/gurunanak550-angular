@@ -33,7 +33,7 @@ export class AddResourceComponent implements OnInit {
     };
 
     this.restService.addResource(resource)
-      .subscribe(data => console.log(data));
+      .subscribe(data => location.reload());
   }
 
   private extractCategories(categories){
