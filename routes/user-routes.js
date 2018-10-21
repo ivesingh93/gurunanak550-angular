@@ -408,6 +408,20 @@ router.get('/resourceCategories', (req, res) => {
    });
 });
 
+router.get('/resource/:category', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    client.query(queries.GET_RESOURCE_MATERIAL, [req.params.category], (err, sqlRes) => {
+        if(err){
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE);
+        } else{
+            res.send(sqlRes.rows);
+        }
+    });
+});
+
 router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
     let client = initialize_client();
     client.connect();
@@ -457,6 +471,20 @@ router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
             res.send(sqlResponse.rows);
         }
         client.end();
+    });
+});
+
+router.get('/plantationRecord/:recordId', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    client.query(queries.GET_PLANTATION_RECORD, [req.params.recordId], (err, sqlRes) => {
+        if(err){
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE);
+        } else{
+            res.send(sqlRes.rows);
+        }
     });
 });
 
