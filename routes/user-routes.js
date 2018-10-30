@@ -151,9 +151,6 @@ router.post('/updatePassword', (req, res) => {
 });
 
 router.post('/plantationRecord', (req, res) => {
-    let client = initialize_client();
-    client.connect();
-
     console.log(req.body);
     let email = req.body.email;
     let location = req.body.location;
@@ -280,9 +277,6 @@ router.post('/addResource', (req, res) => {
 });
 
 router.post('/updateQueriesStatus', (req, res) => {
-    let client = initialize_client();
-    client.connect();
-
     console.log(req.body);
     (async () => {
         const client = await initialize_pool().connect();
@@ -478,9 +472,6 @@ router.get('/plantationRecord/email=:email&status=:status', (req, res) => {
 });
 
 router.get('/plantationRecord/:recordId', (req, res) => {
-    let client = initialize_client();
-    client.connect();
-
     (async () => {
         const client = await initialize_pool().connect();
 
