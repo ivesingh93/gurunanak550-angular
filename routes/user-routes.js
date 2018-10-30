@@ -24,7 +24,7 @@ router.post('/register', (req, res) => {
             if (err) throw err;
             let query = {
                 text: "insert into member (full_name, email, password_hash, phone_number, age, address, organization_name) " +
-                "values ($1, $2, $3, $4, $5, $6, $7)",
+                    "values ($1, $2, $3, $4, $5, $6, $7)",
                 values: [req.body.full_name, req.body.email, hash, req.body.phone_number,
                     req.body.age, req.body.address, req.body.organization_name]
             };
@@ -64,7 +64,7 @@ router.post('/login', (req, res) => {
     let client = initialize_client();
     client.connect();
     let query = {
-        text: "select email, password_hash, full_name, organization_name, address from member where LOWER(email) LIKE LOWER($1)",
+        text: "select id, email, password_hash, full_name, organization_name, address from member where LOWER(email) LIKE LOWER($1)",
         values: [req.body.email]
     };
 
@@ -87,6 +87,7 @@ router.post('/login', (req, res) => {
                         res.json({
                             "ResponseCode": 200,
                             "Message": "Login successful",
+                            "id": sqlResponse.rows[0].id,
                             "email": sqlResponse.rows[0].email,
                             "full_name": sqlResponse.rows[0].full_name,
                             "organization_name": sqlResponse.rows[0].organization_name,
@@ -258,24 +259,24 @@ router.post('/query', (req, res) => {
 });
 
 router.post('/addResource', (req, res) => {
-   let client = initialize_client();
-   client.connect();
+    let client = initialize_client();
+    client.connect();
 
-   console.log(req.body);
-   let query = {
-       text: queries.ADD_RESOURCE,
-       values: [req.body.resourceURL, req.body.resourceThumbnailURL, req.body.resourceTitle, req.body.resourceDescription, req.body.selectedCategory]
-   };
-   client.query(query, (err, sqlRes) => {
-      if(err){
-          console.log(sqlRes);
-          console.log(err);
-          res.json(constants.FAILED_RESPONSE)
-      }else{
-          res.json(constants.SUCCESS_RESPONSE);
-      }
-      client.end();
-   });
+    console.log(req.body);
+    let query = {
+        text: queries.ADD_RESOURCE,
+        values: [req.body.resourceURL, req.body.resourceThumbnailURL, req.body.resourceTitle, req.body.resourceDescription, req.body.selectedCategory]
+    };
+    client.query(query, (err, sqlRes) => {
+        if(err){
+            console.log(sqlRes);
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE)
+        }else{
+            res.json(constants.SUCCESS_RESPONSE);
+        }
+        client.end();
+    });
 });
 
 router.post('/updateQueriesStatus', (req, res) => {
@@ -380,32 +381,33 @@ router.get('/viewQueries', (req, res) => {
     client.connect();
 
     client.query(queries.VIEW_UNANSWERED_QUERIES, (err, sqlRes) => {
-       if(err){
-           console.log(err);
-           res.json(constants.FAILED_RESPONSE);
-       } else{
-           res.send(sqlRes.rows);
-       }
-       client.end();
+        if(err){
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE);
+        } else{
+            res.send(sqlRes.rows);
+        }
+        client.end();
     });
 });
 
 router.get('/resourceCategories', (req, res) => {
-   let client = initialize_client();
-   client.connect();
+    let client = initialize_client();
+    client.connect();
 
-   client.query(queries.GET_RESOURCE_CATEGORIES, (err, sqlRes) => {
-      if(err){
-          console.log(err);
-          res.json(constants.FAILED_RESPONSE);
-      } else{
-          let categories = [];
-          for(let row of sqlRes.rows){
-              categories.push(row['category']);
-          }
-          res.send(categories);
-      }
-   });
+    client.query(queries.GET_RESOURCE_CATEGORIES, (err, sqlRes) => {
+        if(err){
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE);
+        } else{
+            let categories = [];
+            for(let row of sqlRes.rows){
+                categories.push(row['category']);
+            }
+            res.send(categories);
+        }
+        client.end();
+    });
 });
 
 router.get('/resource/:category', (req, res) => {
@@ -419,6 +421,7 @@ router.get('/resource/:category', (req, res) => {
         } else{
             res.send(sqlRes.rows);
         }
+        client.end();
     });
 });
 
@@ -478,14 +481,34 @@ router.get('/plantationRecord/:recordId', (req, res) => {
     let client = initialize_client();
     client.connect();
 
-    client.query(queries.GET_PLANTATION_RECORD, [req.params.recordId], (err, sqlRes) => {
-        if(err){
-            console.log(err);
-            res.json(constants.FAILED_RESPONSE);
-        } else{
-            res.send(sqlRes.rows);
+    (async () => {
+        const client = await initialize_pool().connect();
+
+        try{
+            await client.query('BEGIN');
+
+            let plantation_record = await client.query(queries.GET_PLANTATION_RECORD, [req.params.recordId]);
+            let urls = await client.query(queries.GET_PLANTATION_RECORD_URLS, [req.params.recordId]);
+            let urlArr = [];
+
+            for(let url of urls.rows){
+                urlArr.push(url.url);
+            }
+
+            let record = {
+                plantation_record: plantation_record.rows[0],
+                urls: urlArr
+            };
+
+            await client.query('COMMIT');
+            res.json(record);
+        }catch(e){
+            await client.query('ROLLBACK');
+            throw e
+        }finally{
+            client.release();
         }
-    });
+    })().catch(e => console.error(e.stack));
 });
 
 router.use((req, res, next) => {
