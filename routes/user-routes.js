@@ -302,6 +302,27 @@ router.post('/updateQueriesStatus', (req, res) => {
     })().catch(e => console.error(e.stack));
 });
 
+router.post('/news', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    console.log(req.body);
+    let query = {
+        text: queries.ADD_NEWS,
+        values: [req.body.url, req.body.featuredImgURL, req.body.title, req.body.briefDescription, req.body.content]
+    };
+    client.query(query, (err, sqlRes) => {
+        if(err){
+            console.log(sqlRes);
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE)
+        }else{
+            res.json(constants.SUCCESS_RESPONSE);
+        }
+        client.end();
+    });
+});
+
 router.post('/addQA', (req, res) => {
     let client = initialize_client();
     client.connect();
@@ -380,6 +401,27 @@ router.get('/viewQueries', (req, res) => {
             res.json(constants.FAILED_RESPONSE);
         } else{
             res.send(sqlRes.rows);
+        }
+        client.end();
+    });
+});
+
+router.get('/news', (req, res) => {
+    let client = initialize_client();
+    client.connect();
+
+    console.log(req.body);
+    let query = {
+        text: queries.GET_NEWS,
+        values: []
+    };
+    client.query(query, (err, sqlRes) => {
+        if(err){
+            console.log(sqlRes);
+            console.log(err);
+            res.json(constants.FAILED_RESPONSE)
+        }else{
+            res.json(sqlRes.rows);
         }
         client.end();
     });

@@ -10,7 +10,7 @@ import {User} from "../models/user.model";
 export class RestService
 {
 
-  localhost = "";
+  localhost = "http://localhost";
   locationsURL = this.localhost + '/api/userRoutes/plantationRecord/email=all&status=';
   registerUrl = this.localhost + '/api/userRoutes/register';
   loginUrl = this.localhost + '/api/userRoutes/login';
@@ -18,6 +18,7 @@ export class RestService
   updatePlantationRecordURL = this.localhost + '/api/userRoutes/updatePlantationRecord';
   resourceCategoriesURL = this.localhost + "/api/userRoutes/resourceCategories";
   addResourceURL = this.localhost + "/api/userRoutes/addResource";
+  addNewsURL = this.localhost + "/api/userRoutes/news";
   viewQueries = this.localhost + "/api/userRoutes/viewQueries";
   updateQueriesStatusURL = this.localhost + "/api/userRoutes/updateQueriesStatus";
   addQAURL = this.localhost + "/api/userRoutes/addQA";
@@ -40,6 +41,10 @@ export class RestService
 
   addResource(resource){
     return this.http.post(this.addResourceURL, resource);
+  }
+
+  addNews(news){
+    return this.http.post(this.addNewsURL, news);
   }
 
   updateQueriesStatus(queries){

@@ -16,12 +16,15 @@ import { QueriesComponent } from './pages/api/queries/queries.component';
 import {QueriesModule} from "./pages/api/queries/queries.module";
 import { FaqsComponent } from './pages/api/faqs/faqs.component';
 import {FaqsModule} from "./pages/api/faqs/faqs.module";
+import { NewsComponent } from './pages/api/news/news.component';
+import {NewsModule} from "./pages/api/news/news.module";
 
 const routes: Routes = [
   {path: 'plantations', component: PlantationsComponent},
   {path: 'add-resource', component: AddResourceComponent},
   {path: 'queries', component: QueriesComponent},
   {path: 'faqs', component: FaqsComponent},
+  {path: 'news', component: NewsComponent}
 ];
 
 @NgModule({
@@ -37,6 +40,7 @@ const routes: Routes = [
     HeaderModule,
     PlantationsModule,
     AddResourceModule,
+    NewsModule,
     QueriesModule,
     FaqsModule,
     RouterModule.forRoot(routes)
